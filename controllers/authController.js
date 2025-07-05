@@ -82,3 +82,8 @@ export const login = async (req, res) => {
     res.status(500).json({ message: 'Login failed', error: err.message });
   }
 };
+ //============= LOGOUT ==========
+export const logout = (req, res) => {
+  //  Clear the token on the client side
+  res.status(200).json({ message: 'Logout successful' });
+}

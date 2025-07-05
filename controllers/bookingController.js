@@ -41,11 +41,11 @@ export const getBookingsByUser = async (req, res) => {
   try {
     const { userId } = req.params;
 
-    const bookings = await Booking.find({ userId })
-      .populate('workerId', 'fullName email phone') // optional: include worker details
-      .sort({ createdAt: -1 });
+  const bookings = await Booking.find({ userId })
+    .populate('workerId', 'fullName email phone category') // populate desired fields
+    .sort({ createdAt: -1 });
 
-    res.status(200).json(bookings);
+  res.status(200).json(bookings);
   } catch (error) {
     console.error('Error fetching user bookings:', error);
     res.status(500).json({ message: 'Failed to fetch bookings', error: error.message });
