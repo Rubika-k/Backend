@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+// import User from '../models/User.js';
 
 export const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -14,6 +14,16 @@ export const verifyToken = (req, res, next) => {
     next();
   });
 };
+export const isAuthenticated = (req, res, next) => {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  next();
+};
+export const generateToken = (adminId) => {
+  return jwt.sign({ id: adminId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+};
+
 
 export const isAdmin = (req, res, next) => {
   if (req.user.role !== 'admin') {

@@ -8,6 +8,7 @@ import userRoutes from './routes/userRoutes.js';
 import bookingRoutes from './routes/bookingRoutes.js'; 
 import workerRoutes from './routes/workerRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js'; 
+import contactRoutes from './routes/contactRoutes.js';
 // import path from 'path'
 
 
@@ -19,12 +20,15 @@ app.use(cors({
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+app.use(express.urlencoded({ extended: true }));
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/workers', workerRoutes); // Only accessible by admin
 app.use('/api/categories', categoryRoutes);
+app.use('/api/contact', contactRoutes);
 // app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use('/api', bookingRoutes);
