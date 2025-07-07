@@ -13,15 +13,27 @@ import { isAdmin } from '../middlewares/roleMiddleware.js';
 
 const router = express.Router();
 
-//  Public route: Get workers by category
-// Example: /api/workers?category=Plumber
-router.get('/', getWorkersByCategory);
+// ✅ Public: get workers by category
+router.get('/category', getWorkersByCategory); // public
 
-//  Admin-only routes:
-router.get('/', verifyToken, isAdmin, getAllWorkers);
+// ✅ Admin-only routes: fetch all workers, etc.
+router.get('/admin', verifyToken, isAdmin, getAllWorkers);
 router.get('/:id', verifyToken, isAdmin, getWorkerById);
 router.post('/', verifyToken, isAdmin, createWorker);
 router.put('/:id', verifyToken, isAdmin, updateWorker);
 router.delete('/:id', verifyToken, isAdmin, deleteWorker);
+router.get('/', (req, res) => {
+  const { category } = req.query;
+  console.log('Category:', category);
+  // Example data
+  const workers = [
+    { id: 1, name: 'Kannan', category: 'Electrical Services' },
+    { id: 2, name: 'Aathavan', category: 'Plumbing Services' },
+  ];
+
+  const filtered = workers.filter(w => w.category === category);
+
+  res.json(filtered);
+});
 
 export default router;

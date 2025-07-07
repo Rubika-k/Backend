@@ -1,5 +1,6 @@
 import express from 'express';
-import { authenticateAdmin } from '../middlewares/authMiddleware.js';
+import { getAllUsers , updateUserRole} from '../controllers/userController.js';
+import { authenticateAdmin , verifyToken , isAdmin  } from '../middlewares/authMiddleware.js';
 import User from '../models/User.js';
 import Worker from '../models/worker.js';
 import Booking from '../models/Booking.js';
@@ -56,6 +57,11 @@ router.get('/services/count', authenticateAdmin, async (req, res) => {
   const count = await Service.countDocuments();
   res.json({ count });
 });
+
+router.get('/users', verifyToken, isAdmin, getAllUsers);
+router.patch('/users/:id/role', verifyToken, isAdmin, updateUserRole);
+
+
 
 
 export default router;

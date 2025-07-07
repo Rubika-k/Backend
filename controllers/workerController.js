@@ -1,6 +1,8 @@
+import mongoose from 'mongoose';
 import Worker from '../models/worker.js';
 
 // ✅ Public: Get workers by category (for Customers)
+
 export const getWorkersByCategory = async (req, res) => {
   try {
     const { category } = req.query;
@@ -9,13 +11,17 @@ export const getWorkersByCategory = async (req, res) => {
       return res.status(400).json({ message: 'Category is required' });
     }
 
-    const workers = await Worker.find({ category }).select('-password');
+    const workers = await Worker.find({
+      category: new mongoose.Types.ObjectId(category)
+    }).select('-password');
+
     res.status(200).json(workers);
   } catch (error) {
     console.error('Error in getWorkersByCategory:', error);
     res.status(500).json({ message: 'Server Error', error });
   }
 };
+
 
 // ✅ Admin: Get all workers (no filter)
 export const getAllWorkers = async (req, res) => {

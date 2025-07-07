@@ -26,12 +26,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/workers', workerRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/contact', contactRoutes);
-app.use('/api/admin', adminRoutes);
 // app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use('/api', bookingRoutes);
