@@ -9,14 +9,16 @@ import bookingRoutes from './routes/bookingRoutes.js';
 import workerRoutes from './routes/workerRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js'; 
 import contactRoutes from './routes/contactRoutes.js';
+import adminRoutes from './routes/AdminRoutes.js';  
 // import path from 'path'
 
 
 const app = express();
 dotenv.config();
 app.use(express.json());
+
 app.use(cors({
-  origin: 'http://localhost:3000', // or your frontend URL
+  origin: 'http://localhost:3000', 
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -26,13 +28,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/workers', workerRoutes); // Only accessible by admin
+app.use('/api/workers', workerRoutes);
 app.use('/api/categories', categoryRoutes);
 app.use('/api/contact', contactRoutes);
+app.use('/api/admin', adminRoutes);
 // app.use('/uploads', express.static(path.join(process.cwd(), 'uploads')));
 
 app.use('/api', bookingRoutes);
-
+ 
 
 // Connect DB
 mongoose.connect(process.env.MONGO_URI)

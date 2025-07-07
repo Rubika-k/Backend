@@ -16,6 +16,12 @@ const contactSchema = new mongoose.Schema({
     required: [true, 'Message cannot be empty'],
     minlength: 10
   },
+  reply: { 
+    type: String,
+    trim: true,
+    default: null
+  }, // Admin's reply, optional
+
   status: { 
     type: String, 
     enum: ['new', 'replied', 'archived'], 

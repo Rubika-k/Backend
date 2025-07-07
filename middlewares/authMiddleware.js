@@ -23,6 +23,14 @@ export const isAuthenticated = (req, res, next) => {
 export const generateToken = (adminId) => {
   return jwt.sign({ id: adminId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 };
+export const authenticateAdmin = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (authHeader && authHeader.startsWith('Bearer ')) {
+    // Token validation logic here
+    return next();
+  }
+  res.status(401).json({ message: 'Not authorized as admin' });
+};
 
 
 export const isAdmin = (req, res, next) => {

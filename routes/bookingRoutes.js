@@ -10,8 +10,6 @@ router.get('/user/:userId', verifyToken, getBookingsByUser);
 
 router.get('/admin/bookings', verifyToken, isAdmin, getAllBookings);
 
-router.get('/bookings/admin', verifyToken, isAdmin, getAllBookings);
-
 router.put('/:id/status', verifyToken, isAdmin, updateBookingStatus);
 
 router.delete('/:id', verifyToken, isAdmin, deleteBooking);
