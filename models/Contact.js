@@ -27,6 +27,10 @@ const contactSchema = new mongoose.Schema({
     enum: ['new', 'replied', 'archived'], 
     default: 'new' 
   },
+  repliedAt: { 
+    type: Date, 
+    default: null 
+  }, // Timestamp when admin replied
   adminReply: String
 }, { timestamps: true });
 
