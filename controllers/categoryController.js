@@ -28,16 +28,38 @@ export const addCategory = async (req, res) => {
   }
 };
 
-// Public: Get all categories
+// Public: Get all categories with worker counts
 export const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.find();
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: "workers", // your workers collection
+          localField: "_id",
+          foreignField: "category",
+          as: "workersList"
+        }
+      },
+      {
+        $addFields: {
+          workers: { $size: "$workersList" }
+        }
+      },
+      {
+        $project: {
+          workersList: 0 // do not return whole array, just the count
+        }
+      }
+    ]);
+
     res.json(categories);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error fetching categories', error: error.message });
+    res.status(500).json({ message: "Error fetching categories", error: error.message });
   }
 };
+
 
 // Admin: Delete category
 export const deleteCategory = async (req, res) => {

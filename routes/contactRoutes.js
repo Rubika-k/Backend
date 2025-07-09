@@ -148,6 +148,19 @@ router.patch('/messages/:id/reply', async (req, res) => {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });
+// ✅ GET: admin can reply to a message
+router.get('/admin/messages/:id/reply', async (req, res) => {
+  try {
+    const message = await Message.findById(req.params.id);
+    if (!message) {
+      return res.status(404).json({ message: 'Message not found' });
+    }
+    res.json(message);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Failed to fetch message' });
+  }
+});
 
 
 

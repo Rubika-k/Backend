@@ -6,14 +6,7 @@ import Worker from '../models/worker.js';
 export const getWorkersByCategory = async (req, res) => {
   try {
     const { category } = req.query;
-
-    if (!category) {
-      return res.status(400).json({ message: 'Category is required' });
-    }
-
-    const workers = await Worker.find({
-      category: new mongoose.Types.ObjectId(category)
-    }).select('-password');
+const workers = await Worker.find({ category: new mongoose.Types.ObjectId(category) }).select('-password');
 
     res.status(200).json(workers);
   } catch (error) {
@@ -21,7 +14,6 @@ export const getWorkersByCategory = async (req, res) => {
     res.status(500).json({ message: 'Server Error', error });
   }
 };
-
 
 // ✅ Admin: Get all workers (no filter)
 export const getAllWorkers = async (req, res) => {
@@ -76,21 +68,28 @@ export const createWorker = async (req, res) => {
 };
 
 // ✅ Admin: Update existing worker
+// export const updateWorker = async (req, res) => {
+//   try {
+//     const updated = await Worker.findByIdAndUpdate(
+//       req.params.id,
+//       req.body,
+//       { new: true }
+//     );
+//     if (!updated) return res.status(404).json({ message: 'Worker not found' });
+
+//     res.status(200).json(updated);
+//   } catch (error) {
+//     console.error("Update worker error:", error); 
+//     res.status(500).json({ message: "Server Error", error: error.message });
+//   }
+// };
 export const updateWorker = async (req, res) => {
-  try {
-    const worker = await Worker.findById(req.params.id);
-    if (!worker) {
-      return res.status(404).json({ message: 'Worker not found' });
-    }
-
-    Object.assign(worker, req.body);
-    await worker.save();
-
-    res.status(200).json({ message: 'Worker updated', worker });
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating worker', error });
-  }
+  const worker = await Worker.findById(req.params.id);
+  worker.isAvailable = req.body.isAvailable;
+  worker.nextAvailableTime = req.body.nextAvailableTime;
+  await worker.save();
 };
+
 
 // ✅ Admin: Delete worker
 export const deleteWorker = async (req, res) => {

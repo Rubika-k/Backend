@@ -14,7 +14,7 @@ import { isAdmin } from '../middlewares/roleMiddleware.js';
 const router = express.Router();
 
 // ✅ Public: get workers by category
-router.get('/workers', getWorkersByCategory); // public
+router.get('/category', getWorkersByCategory); // public
 
 // ✅ Admin-only routes: fetch all workers, etc.
 router.get('/admin', verifyToken, isAdmin, getAllWorkers);

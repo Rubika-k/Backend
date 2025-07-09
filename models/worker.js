@@ -7,11 +7,11 @@ const workerSchema = new mongoose.Schema({
   profilePicture: { type: String },
   address: { type: String },
   experience: { type: Number, default: 0 },
-  category: { type: String },
+  category: { type:mongoose.Schema.Types.ObjectId, ref: "Category" },
   isVerified: { type: Boolean, default: false },
   registrationFeePaid: { type: Boolean, default: false },
   isAvailable: { type: Boolean, default: true },
-  nextAvailableTime: { type: String }, // You can change to Date if needed
+  nextAvailableTime: { type: Date }, //
   createdAt: { type: Date, default: Date.now }
 });
 
