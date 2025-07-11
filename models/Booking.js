@@ -11,6 +11,14 @@ const bookingSchema = new mongoose.Schema({
     ref: 'Worker',
     // required: true
   },
+  //  workerName: {
+  //    type: String, 
+  //    required: true 
+  //   },
+  // workerCategory: {
+  //    type: String,
+  //    required: true
+  //    },
   workTitle: {
     type: String,
     required: true,

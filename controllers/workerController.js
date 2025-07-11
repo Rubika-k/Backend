@@ -67,29 +67,28 @@ export const createWorker = async (req, res) => {
   }
 };
 
-// ✅ Admin: Update existing worker
+
 // export const updateWorker = async (req, res) => {
-//   try {
-//     const updated = await Worker.findByIdAndUpdate(
-//       req.params.id,
-//       req.body,
-//       { new: true }
-//     );
-//     if (!updated) return res.status(404).json({ message: 'Worker not found' });
-
-//     res.status(200).json(updated);
-//   } catch (error) {
-//     console.error("Update worker error:", error); 
-//     res.status(500).json({ message: "Server Error", error: error.message });
-//   }
+//   const worker = await Worker.findById(req.params.id);
+//   worker.isAvailable = req.body.isAvailable;
+//   worker.nextAvailableTime = req.body.nextAvailableTime;
+//   await worker.save();
 // };
-export const updateWorker = async (req, res) => {
-  const worker = await Worker.findById(req.params.id);
-  worker.isAvailable = req.body.isAvailable;
-  worker.nextAvailableTime = req.body.nextAvailableTime;
-  await worker.save();
-};
 
+export const updateWorker = async (req, res) => {
+  try {
+    const updated = await Worker.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    return res.json(updated);
+  } catch (err) {
+    console.error("⚠️ [updateWorker] error:", err);
+    console.error("Payload:", req.body);
+    return res.status(500).json({ message: err.message });
+  }
+};
 
 // ✅ Admin: Delete worker
 export const deleteWorker = async (req, res) => {
