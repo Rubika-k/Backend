@@ -22,18 +22,6 @@ router.get('/:id', verifyToken, isAdmin, getWorkerById);
 router.post('/', verifyToken, isAdmin, createWorker);
 router.put('/:id', verifyToken, isAdmin, updateWorker);
 router.delete('/:id', verifyToken, isAdmin, deleteWorker);
-router.get('/', (req, res) => {
-  const { category } = req.query;
-  console.log('Category:', category);
-  // Example data
-  const workers = [
-    { id: 1, name: 'Kannan', category: 'Electrical Services' },
-    { id: 2, name: 'Aathavan', category: 'Plumbing Services' },
-  ];
 
-  const filtered = workers.filter(w => w.category === category);
-
-  res.json(filtered);
-});
 
 export default router;

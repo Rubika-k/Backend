@@ -1,4 +1,5 @@
 import Category from '../models/Category.js';
+import Worker from '../models/worker.js';
 
 // Admin: Add new category
 export const addCategory = async (req, res) => {
@@ -59,11 +60,12 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
-export const getWorkersByCategory = async (req, res) => {
-  const { category } = req.query;
-  const workers = await Worker.find({ category });
-  res.json(workers);
-};
+// export const getWorkersByCategory = async (req, res) => {
+//   const { category } = req.query;
+//   const workers = await Worker.find({ category });
+//   res.json(workers);
+// };
+
 
 
 // Admin: Delete category
