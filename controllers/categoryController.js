@@ -34,30 +34,35 @@ export const getAllCategories = async (req, res) => {
     const categories = await Category.aggregate([
       {
         $lookup: {
-          from: "workers", // your workers collection
-          localField: "_id",
+          from: "workers",
+          localField: "_id", // use "_id" if Worker.category is ObjectId
           foreignField: "category",
           as: "workersList"
         }
       },
       {
         $addFields: {
-          workers: { $size: "$workersList" }
+          workersCount: { $size: "$workersList" }
         }
       },
       {
         $project: {
-          workersList: 0 // do not return whole array, just the count
+          workersList: 0
         }
       }
     ]);
 
     res.json(categories);
-
   } catch (error) {
-    console.error(error);
+    console.error("Error in getAllCategories:", error);
     res.status(500).json({ message: "Error fetching categories", error: error.message });
   }
+};
+
+export const getWorkersByCategory = async (req, res) => {
+  const { category } = req.query;
+  const workers = await Worker.find({ category });
+  res.json(workers);
 };
 
 

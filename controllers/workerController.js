@@ -18,10 +18,11 @@ const workers = await Worker.find({ category: new mongoose.Types.ObjectId(catego
 // ✅ Admin: Get all workers (no filter)
 export const getAllWorkers = async (req, res) => {
   try {
-    const workers = await Worker.find().select('-password');
-    res.status(200).json(workers);
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching workers', error });
+    const workers = await Worker.find();
+    res.json(workers);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to get all workers" });
   }
 };
 
@@ -66,14 +67,6 @@ export const createWorker = async (req, res) => {
     res.status(400).json({ error: err.message, errors: err.errors });
   }
 };
-
-
-// export const updateWorker = async (req, res) => {
-//   const worker = await Worker.findById(req.params.id);
-//   worker.isAvailable = req.body.isAvailable;
-//   worker.nextAvailableTime = req.body.nextAvailableTime;
-//   await worker.save();
-// };
 
 export const updateWorker = async (req, res) => {
   try {
